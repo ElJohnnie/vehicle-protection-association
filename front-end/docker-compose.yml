@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  front-end:
+    build: './'
+    container_name: vehicle-insurance
+    image: vehicle-insurance_frontend
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/app
+    environment:
+      - VUE_APP_DEV_ENVIRONMENT=true
+      - VUE_APP_PORT=8000
+      - VUE_APP_HOST=0.0.0.0
+      - VUE_APP_MVP=false
+    expose:
+      - 80
+    ports:
+      - 8000:80
+    networks:
+      - vehicle-insurance
+
+networks:
+  vehicle-insurance:
+    driver: bridge

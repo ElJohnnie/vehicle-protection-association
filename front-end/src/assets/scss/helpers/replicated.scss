@@ -1,0 +1,64 @@
+.logo{
+    padding: $padding-base 0;
+    z-index: 4;
+
+    &:after{
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 15px;
+        height: 1px;
+        width: calc(100% - 30px);
+        background-color: rgba(180,180,180, .3);
+
+    }
+
+    p{
+        float: left;
+        font-size: 20px;
+        margin: 10px 10px;
+        color: $white-color;
+        line-height: 20px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .logo-mini{
+      float: left;
+      width: 40px;
+      text-align: center;
+      margin-left: 25px;
+      margin-right: 11px;
+      position: relative;
+      top: -5px;
+    }
+
+    .simple-text{
+        padding: $padding-small-vertical $padding-zero;
+        display: block;
+        font-size: $font-size-large;
+        font-weight: $font-weight-default;
+        line-height: 30px;
+        text-decoration: none;
+
+        &,
+        &:hover,
+        &:focus{
+            color: $gray-base !important;
+        }
+
+        .logo-img{
+          width: 40px;
+          display: inline-block;
+          height: 40px;
+          background: $white-color;
+          text-align: center;
+          overflow: hidden;
+          @include shadow-big();
+
+            img{
+              width: 55%;
+              vertical-align: -webkit-baseline-middle;
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+worker_processes auto;
+
+events { 
+    worker_connections 1024; 
+}
+
+http {    
+        upstream vehicle-insurance_backend {
+            server ${API_SERVER_HOST}:${API_SERVER_PORT};
+        }
+        server {
+            listen ${NGINX_SERVER_LISTEN_PORT}; 
+            location / {
+                proxy_pass http://vehicle-insurance_backend;
+            }
+        }
+}

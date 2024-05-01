@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  mysql:
+    container_name: "vehicle-insurance_database"
+    image: vehicle-insurance_database
+    build: './mysql/'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: vehicle-insurance
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    command: --explicit-defaults-for-timestamp=ON
+    networks:
+      - vehicle-insurance
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  back-end:
+    build: './'
+    container_name: vehicle-insurance_backend
+    image: vehicle-insurance_backend
+    volumes:
+      - ./:/app
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    env_file:
+      - docker.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - vehicle-insurance
+
+networks:
+  vehicle-insurance:
+    driver: bridge

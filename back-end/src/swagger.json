@@ -1,0 +1,4315 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "vehicle-insurance API",
+        "description": "",
+        "contact": {
+            "email": "teste@gmail.com",
+            "name": "",
+            "url": "www.teste.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "{protocol}://{host}:{port}",
+            "description": "URL API",
+            "variables": {
+                "protocol": {
+                    "enum": [
+                        "http",
+                        "https"
+                    ],
+                    "default": "http"
+                },
+                "host": {
+                    "enum": [
+                        "localhost"
+                    ],
+                    "default": "localhost"
+                },
+                "port": {
+                    "enum": [
+                        "3000"
+                    ],
+                    "default": "3000"
+                }
+            }
+        }      
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "summary": "Login user",
+                "description": "Endpoint for user login",
+                "tags": ["Auth"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/loginRequest"
+                            },
+                            "examples": {
+                                "login": {
+                                    "value": {
+                                        "email": "vehicle-insuranceteste@gmail.com",
+                                        "password": "123456"
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/loginResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/refresh-token": {
+            "post": {
+                "summary": "Generete new token",
+                "description": "Endpoint for generate new accessToken after expiration",
+                "tags": ["Auth"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/refreshTokenRequest"
+                            }, 
+                            "examples": {
+                                "refresh token": {
+                                    "value": {
+                                        "refreshToken": "add refresh token here"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/refreshTokenResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contract": {
+            "put": {
+                "summary": "edit one contract with plan",
+                "description": "update contract with plan",
+                "tags": ["Contract"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "value": {
+                        "myId": "pay-6439f79ad47e89.52359022",
+                        "additionalInfo": "Lorem ipsum dolor sit amet.",
+                        "planMyId": "pay-6439f79aed4c23.52274004"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/updateContractRequest"
+                            },
+                            "examples": {
+                                "contract": {
+                                    "value": {
+                                        "myId": "pay-6439f79ad47e89.52359022",
+                                        "additionalInfo": "Lorem ipsum dolor sit amet.",
+                                        "planMyId": "pay-6439f79aed4c23.52274004"
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/contractResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "create one contract with plan",
+                "description": "include new contract",
+                "tags": ["Contract"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "value": {
+                        "vehicleId": "8651a3d5-86d3-4f00-9882-8ced1140794e",
+                        "planId": "9789b408-1719-4dbf-85fa-f777a98678aa",
+                        "firstPayDayDate": "10/05/2023",
+                        "additionalInfo": "blablabla"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createContractRequest"
+                            },
+                            "examples": {
+                                "contract": {
+                                    "value": {
+                                        "vehicleId": "8651a3d5-86d3-4f00-9882-8ced1140794e",
+                                        "planId": "9789b408-1719-4dbf-85fa-f777a98678aa",
+                                        "firstPayDayDate": "10/05/2023",
+                                        "additionalInfo": "blablabla"
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/contractResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "dele one contract with plan",
+                "description": "delete contract with plan",
+                "tags": ["Contract"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "value": {
+                        "id": "7651a3d5-86d3-4f00-9882-8ced1140794e"
+                    }
+                },                
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                          "application/json": {
+                            "schema": {
+                              "type": "object",
+                              "items": {
+                                "$ref": "#/components/schemas/singleMessageResponse"
+                              }
+                            }
+                          }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id to delete contract",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            }
+        },
+        "/contract/{id}/transactions?status={status}": {
+            "get": {
+                "summary": "Return list of transactions of contract",
+                "description": "get all transactions of contract by status",
+                "tags": ["Contract"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of contract",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "status of transaction",
+                        "type":"string",
+                        "required": true,
+                        "style": "simple"       
+                      }                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/transactionsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }        
+            }            
+        },
+        "/contract/{id}/carne": {
+            "get": {
+                "summary": "Return list of carne",
+                "description": "get all carnes of contract",
+                "tags": ["Contract"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of contract to used generate carnes",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/carneResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }        
+            }
+        },
+        "/user": {
+            "get": {
+                "summary": "Return list of users",
+                "description": "get all users",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/usersResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }      
+            },
+            "post": {
+                "summary": "Create one user",
+                "description": "Method to create user",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],                
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createUserRequest"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "fullname": "Johnny Walker",
+                                        "email": "joao@teste.com.br",
+                                        "documentNumber":"12344",
+                                        "password": "testeteste",
+                                        "confirmPassword": "testeteste",
+                                        "role": "LOW",
+                                        "businessUnitId": "3af3064e-2658-4168-bf9e-d2b13be65712"
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/userResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }      
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "summary": "Returns users based on Id",
+                "description": "Find users by id",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],                
+                "examples": {
+                    "login": {
+                        "value": {
+                            "id": "7651a3d5-86d3-4f00-9882-8ced1140794e"
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/userResponse"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },  
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "ID of user to use",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "edit user based on Id",
+                "description": "Edit user by Id",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],                
+                "examples": {
+                    "value": {
+                        "fullname": "Johnny Walker",
+                        "level": "LOW",
+                        "email": "joao@teste.com.br",
+                        "documentNumber": "111.111.111-11"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/editUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                          "application/json": {
+                            "schema": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/userResponse"
+                              }
+                            }
+                          }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id to update user",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["User"],
+                "summary": "Delete users based on Id",
+                "description": "Delete users by id",
+                "security": [{
+                    "bearerAuth":[]
+                }],                
+                "examples": {
+                    "value": {
+                        "id": "7651a3d5-86d3-4f00-9882-8ced1140794e"
+                    }
+                },                
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                          "application/json": {
+                            "schema": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/deleteUserResponse"
+                              }
+                            }
+                          }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id to delete user",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            }
+        },
+        "/user/allocate": {
+            "post": {
+                "summary": "allocate in businessUnit",
+                "description": "include one user in businessUnit",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "value": {
+                        "userId": "7651a3d5-86d3-4f00-9882-8ced1140794e",
+                        "businessUnitId": "5789b408-1719-4dbf-85fa-f777a98678aa"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/allocateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/singleMessageResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }                    
+                }    
+            }
+        },
+        "/user/deallocate": {
+            "post": {
+                "summary": "remove user of businessUnit",
+                "description": "deallocate user on businessUnit",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "value": {
+                        "userId": "7651a3d5-86d3-4f00-9882-8ced1140794e",
+                        "businessUnitId": "5789b408-1719-4dbf-85fa-f777a98678aa"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/allocateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/singleMessageResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }                    
+                }    
+            }
+        },
+        "/user/activate/{id}": {
+            "patch": {
+                "summary": "active one user by Id",
+                "description": "Endpoint to active one user",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/singleMessageResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "ID of to active user",
+                  "type":"string",
+                  "required": true,
+                  "style": "simple"
+                }
+            ]
+        },
+        "/user/inactivate/{id}": {
+            "patch": {
+                "summary": "inactive one user by Id",
+                "description": "Endpoint to desactive one user",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/singleMessageResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "ID of to inactive user",
+                  "type":"string",
+                  "required": true,
+                  "style": "simple"
+                }
+            ]
+        },        
+        "/user/password/{id}": {
+            "patch": {
+                "summary": "Edit password of user based on Id",
+                "description": "Edit user by Id",
+                "tags": ["User"],
+                "security": [{
+                    "bearerAuth":[]
+                }],                
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/editPasswordRequest"
+                            },
+                            "examples": {
+                                "editPassword": {
+                                    "value": {
+                                        "password": "123456",
+                                        "confirmPassword": "123456"
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/userResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "ID of user to edit password",
+                  "type":"string",
+                  "required": true,
+                  "style": "simple"
+                }
+            ]
+        },      
+        "/client": {
+            "get": {
+                "summary": "find all client",
+                "description": "Endpoint for get all client",
+                "tags": ["Client"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/clientResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create client",
+                "description": "Endpoint for create client",
+                "tags": ["Client"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createClientRequest"
+                            },
+                            "examples": {
+                                "client": {
+                                    "documentNumber": "25789175660",
+                                    "fullName": "tadeu",
+                                    "email": "tadeu@gmail.com",
+                                    "telephone": "123456",
+                                    "mobilephone": "55999299766",
+                                    "indication": "Francisco B",
+                                    "address": {
+                                        "zipCode": "97150000",
+                                        "street": "1231313",
+                                        "number": "12",
+                                        "neighborhood": "Bancarios",
+                                        "city": "Joao Pessoa",
+                                        "state": "PB"
+                                    },
+                                    "identityDocument": {
+                                        "identityNumber":"000000000222211111",
+                                        "expeditionOrgan": "SSP",
+                                        "expeditionDate": "10/02/2000",
+                                        "birthDate": "12/08/2001",
+                                        "UF": "RS"
+                                    },
+                                    "licenseDocument": {
+                                        "licenseNumber": "1111111111111122111111",
+                                        "licenseCategory": "AB"
+                                    },
+                                    "businessUnitId": "3af3064e-2658-4168-bf9e-d2b13be65712"                            
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/loginResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/client/{id}": {
+            "get": {
+                "summary": "Client by Id",
+                "description": "Endpoint return client by Id",
+                "tags": ["Client"],
+                "security": [{
+                    "bearerAuth":[]
+                }],          
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/clientResponse"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },  
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "ID of client to edit",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Edit Client by Id",
+                "description": "Endpoint edit client by Id",
+                "tags": ["Client"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createClientRequest"
+                            },
+                            "examples": {
+                                "client": {
+                                    "documentNumber": "25789175660",
+                                    "fullName": "tadeu",
+                                    "email": "tadeu@gmail.com",
+                                    "telephone": "123456",
+                                    "mobilephone": "55999299766",
+                                    "indication": "Francisco B",
+                                    "address": {
+                                        "zipCode": "97150000",
+                                        "street": "1231313",
+                                        "number": "12",
+                                        "neighborhood": "Bancarios",
+                                        "city": "Joao Pessoa",
+                                        "state": "PB"
+                                    },
+                                    "identityDocument": {
+                                        "identityNumber":"000000000222211111",
+                                        "expeditionOrgan": "SSP",
+                                        "birthDate": "12/08/2001",
+                                        "UF": "RS"
+                                    },
+                                    "licenseDocument": {
+                                        "licenseNumber": "1111111111111122111111",
+                                        "licenseCategory": "AB"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "object",
+                            "items": {
+                              "$ref": "#/components/schemas/createClientRequest"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "ID of client to edit",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Delete Client by Id",
+                "description": "Endpoint edit client by Id",
+                "tags": ["Client"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "ID of client to delete",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            }
+        },
+        "/client/activate/{id}": {
+            "patch": {
+                "summary": "Active Client by Id",
+                "description": "Endpoint to activate client by Id",
+                "tags": ["Client"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/singleMessageResponse"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },  
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "ID of client to active",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            }
+        },
+        "/client/inactivate/{id}": {
+            "patch": {
+                "summary": "Inactive Client by Id",
+                "description": "Endpoint to inactive client by Id",
+                "tags": ["Client"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/singleMessageResponse"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },  
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "ID of client to inactive",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            }
+        },
+        "/event" : {
+            "get": {
+                "summary": "get all events",
+                "description": "Endpoint for get all events",
+                "tags": ["Event"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/eventResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "create event",
+                "description": "Endpoint for create one event",
+                "tags": ["Event"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/eventRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/eventResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "edit event by id",
+                "description": "Endpoint for update event",
+                "tags": ["Event"],
+                "security": [{
+                    "bearerAuth":[]
+                }]
+            }            
+        },
+        "/event/{id}": {
+            "get": {
+                "summary": "get event by id",
+                "description": "Endpoint for get one event",
+                "tags": ["Event"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/eventResponse"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },  
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of event do filter",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]                                
+            },
+            "delete": {
+                "summary": "delete one event",
+                "description": "Endpoint used to delete event",
+                "tags": ["Event"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of event to delete",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/singleMessageResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/plan": {
+            "get": {
+                "summary": "get all plans",
+                "description": "Endpoint for get all plan",
+                "tags": ["Plan"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/planResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }                
+            },
+            "post": {
+                "summary": "create one plan",
+                "description": "Endpoint for create one plan",
+                "tags": ["Plan"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "plan": {
+                        "name": "ouro",
+                        "periodicity": "monthly",
+                        "quantity": 12,
+                        "additionalInfo": "Exemplo",
+                        "planPrices": [
+                            {
+                                "payment": "creditcard",
+                                "value": 149000
+                            },
+                            {
+                                "payment": "boleto",
+                                "value": 139099
+                            }
+                        ]                        
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/createPlanRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/planResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/plan/{id}": {
+            "get": {
+                "summary": "get one plan",
+                "description": "Endpoint used to get plan",
+                "tags": ["Plan"],
+                "security": [{
+                    "bearerAuth":[]
+                }],               
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id to get plan",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/planResponse"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "edit one plan",
+                "description": "Endpoint used to edit plan",
+                "tags": ["Plan"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "plan": {
+                        "name": "ouro",
+                        "periodicity": "monthly",
+                        "quantity": 12,
+                        "additionalInfo": "Exemplo",
+                        "planPrices": [
+                            {
+                                "payment": "creditcard",
+                                "value": 149000
+                            },
+                            {
+                                "payment": "boleto",
+                                "value": 139099
+                            }
+                        ]                        
+                    }
+                },                
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of plan to edit",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createPlanRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/createPlanRequest"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "delete one plan",
+                "description": "Endpoint used to delete plan",
+                "tags": ["Plan"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of plan to delete",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/singleMessageResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/unit": {
+            "get": {
+                "summary": "find all units",
+                "description": "Endpoint for show all units",
+                "tags": ["Unit"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/unitsResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }                
+            },
+            "post": {
+                "summary": "create one unit",
+                "description": "Endpoint for save one unit",
+                "tags": ["Unit"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "unit": {
+                        "value": {
+                            "corporateName": "Unidade Rio Grande do Sul",
+                            "documentNumber": "14.023.376/0001-26",
+                            "address": {
+                                "zipCode": "97150-000",
+                                "street": "1231313",
+                                "number": "12",
+                                "neighborhood": "uuuuuuuuu",
+                                "city": "teste",
+                                "state": "RS"
+                            }
+                        }
+                    }
+                },                
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/createUnitRequest"
+                            }
+                        }
+                    }          
+                },
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/unitResponse"
+                          }
+                        }
+                      }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }                                 
+            }
+        },
+        "/unit/{id}": {
+            "get": {
+                "tags": ["Unit"],
+                "summary": "get unit based on Id",                
+                "description": "show unit by id",
+                "security": [{
+                    "bearerAuth":[]
+                }],                
+                "examples": {
+                    "value": {
+                        "id": "7651a3d5-86d3-4f00-9882-8ced1140794e"
+                    }
+                },                
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                          "application/json": {
+                            "schema": {
+                              "type": "object",
+                              "items": {
+                                "$ref": "#/components/schemas/unitResponse"
+                              }
+                            }
+                          }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },                    
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id used to filter unit",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["Unit"],
+                "summary": "update unit based on Id",                
+                "description": "endpoint to update unit by id",
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "value": {
+                        "id": "7651a3d5-86d3-4f00-9882-8ced1140794e"
+                    }
+                },                
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id to update unit",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/createUnitRequest"
+                            }
+                        }
+                    }          
+                },
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "items": {
+                              "$ref": "#/components/schemas/unitResponse"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },                    
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }                                 
+            },
+            "delete": {
+                "tags": ["Unit"],
+                "summary": "Delete unit based on Id",                
+                "description": "Delete unit by id",
+                "security": [{
+                    "bearerAuth":[]
+                }],                
+                "examples": {
+                    "value": {
+                        "id": "7651a3d5-86d3-4f00-9882-8ced1140794e"
+                    }
+                },                
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                          "application/json": {
+                            "schema": {
+                              "type": "object",
+                              "items": {
+                                "$ref": "#/components/schemas/deleteUnitResponse"
+                              }
+                            }
+                          }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id to delete unit",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            }
+        },
+        "/unit/{id}/clients": {
+            "get": {
+                "tags": ["Unit"],
+                "summary": "get all clients by unitId",                
+                "description": "show all clients by unitId",
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "value": {
+                        "id": "7651a3d5-86d3-4f00-9882-8ced1140794e"
+                    }
+                },                
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                          "application/json": {
+                            "schema": {
+                              "type": "object",
+                              "items": {
+                                "$ref": "#/components/schemas/clientResponse"
+                              }
+                            }
+                          }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of unit to find all clients",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            }
+        },
+        "/unit/{id}/users": {
+            "get": {
+                "tags": ["Unit"],
+                "summary": "get all user by unitId",                
+                "description": "show all user by unitId",
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "value": {
+                        "id": "7651a3d5-86d3-4f00-9882-8ced1140794e"
+                    }
+                },                
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                          "application/json": {
+                            "schema": {
+                              "type": "object",
+                              "items": {
+                                "$ref": "#/components/schemas/usersResponse"
+                              }
+                            }
+                          }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of unit to find all users",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            }
+        },
+        "/unit/myUnits": {
+            "get": {
+                "summary": "get my units",
+                "description": "Endpoint for get my units",
+                "tags": ["Unit"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/unitsResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/unit/add/manager": {
+            "post": {
+                "summary": "add new manager on unit",
+                "description": "Endpoint for to add new manager",
+                "tags": ["Unit"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "profile": {
+                        "value": {
+                            "email": {
+                                "type": "string",
+                                "examples": "joao@teste.com.br"
+                            },
+                            "documentNumber": {
+                                "type": "string",
+                                "examples": "123456"
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/addManagerUnitRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/singleMessageResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }                                               
+            }
+        },
+        "/unit/remove/manager": {
+            "post": {
+                "summary": "remove manager of unit",
+                "description": "Endpoint for remove manager of unit",
+                "tags": ["Unit"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "profile": {
+                        "value": {
+                            "email": {
+                                "type": "string",
+                                "examples": "joao@teste.com.br"
+                            },
+                            "documentNumber": {
+                                "type": "string",
+                                "examples": "123456"
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/addManagerUnitRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/singleMessageResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }                                                                             
+            }
+        },
+        "/profile/myProfile": {
+            "get": {
+                "summary": "get my profile",
+                "description": "Endpoint for get profile",
+                "tags": ["Profile"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/userResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/edit": {
+            "patch": {
+                "summary": "edit the profile",
+                "description": "Endpoint for edit profile",
+                "tags": ["Profile"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "profile": {
+                        "value": {
+                            "email": "joao@teste.com.br",
+                            "documentNumber": "123456"
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/createProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/userResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }                               
+            }
+        },
+        "/profile/edit/password": {
+            "patch": {
+                "summary": "edit the password of profile",
+                "description": "Endpoint for edit password of profile",
+                "tags": ["Profile"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "profile": {
+                        "value": {
+                            "oldPassword": "123456",
+                            "newPassword": "$enha",
+                            "confirmPassword": "$enha"
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/updatePasswordProfile"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {                         
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "$ref": "#/components/schemas/singleMessageResponse"
+                                }
+                            }
+                        }   
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }                               
+            }
+        },        
+        "/vehicle": {
+            "get": {
+                "summary": "find all vehicle",
+                "description": "Endpoint for get all vehicle",
+                "tags": ["Vehicle"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/vehicleResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "create one vehicle",
+                "description": "Endpoint for create one vehicle",
+                "tags": ["Vehicle"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/createVehicleRequest"
+                            }
+                        }
+                    },
+                    "examples": {
+                        "vehicle": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "CAR",
+                                    "MOTOCYCLE",
+                                    "TRUCK",
+                                    "OTHER"
+                                ],
+                                "default": "CAR"
+                            },
+                            "brand": {
+                                "type": "string"
+                            },                            
+                            "model": {
+                                "type": "string"
+                            },
+                            "yearManufacture": {
+                                "type": "string"
+                            },
+                            "yearModel": {
+                                "type": "string"
+                            },
+                            "color": {
+                                "type": "string"
+                            },
+                            "chassi": {
+                                "type": "string"
+                            },
+                            "renavam": {
+                                "type": "string"
+                            },
+                            "fuel": {
+                                "type": "string",
+                                "enum": [
+                                    "GASOLINE",
+                                    "ALCOOL",
+                                    "FLEX"
+                                ]
+                            },
+                            "clientId": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            },
+                            "odometer": {
+                                "type": "string"
+                            },
+                            "licensePlate": {
+                                "type": "string"
+                            },
+                            "tracker": {
+                                "type": "string"
+                            },
+                            "trailer": {
+                                "type": "string"
+                            },
+                            "alieneted": {
+                                "type": "string"
+                            },
+                            "bank": {
+                                "type": "string"
+                            },
+                            "financedAmount": {
+                                "type": "string"
+                            },
+                            "engineCapicity": {
+                                "type": "string"
+                            },
+                            "observations": {
+                                "type": "string"
+                            },
+                            "vehicleConditions": {
+                                "type": "object",
+                                "properties": {
+                                    "dentedTank": {
+                                        "type": "string"
+                                    },
+                                    "brokenExhaust": {
+                                        "type": "boolean"
+                                    },
+                                    "goodConditions": {
+                                        "type": "string"
+                                    },
+                                    "damagedHeadTailligths": {
+                                        "type": "string"
+                                    },
+                                    "damagedHeadlights": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "secondDriver": {
+                                "type": "object",
+                                "properties": {
+                                    "documentNumber": {
+                                        "type": "string"
+                                    },
+                                    "fullname": {
+                                        "type": "string"
+                                    },
+                                    "kinship": {
+                                        "type": "string"
+                                    },
+                                    "licenseDocument": {
+                                        "type": "object",
+                                        "properties": {
+                                            "licenseNumber": {
+                                                "type": "string"
+                                            },
+                                            "licenseCategory": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "birthDate": {
+                                        "type": "string"
+                                    },
+                                    "observations": {
+                                        "type": "string"
+                                    }
+                                }
+                            }                                                        
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                      "description": "OK",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "items": {
+                              "$ref": "#/components/schemas/vehicleResponse"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }           
+            }
+        },
+        "/vehicle/{id}": {
+            "get": {
+                "summary": "find vehicle by Id",
+                "description": "Endpoint for search vehicle by id",
+                "tags": ["Vehicle"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/vehicleResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                },                
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id to get vehicle",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]
+            },
+            "put": {
+                "summary": "update vehicle by Id",
+                "description": "Endpoint for update vehicle by id",
+                "tags": ["Vehicle"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "examples": {
+                    "vehicle": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "CAR",
+                                "MOTOCYCLE",
+                                "TRUCK",
+                                "OTHER"
+                            ],
+                            "default": "CAR"
+                        },
+                        "brand": {
+                            "type": "string"
+                        },                            
+                        "model": {
+                            "type": "string"
+                        },
+                        "yearManufacture": {
+                            "type": "string"
+                        },
+                        "yearModel": {
+                            "type": "string"
+                        },
+                        "color": {
+                            "type": "string"
+                        },
+                        "chassi": {
+                            "type": "string"
+                        },
+                        "renavam": {
+                            "type": "string"
+                        },
+                        "fuel": {
+                            "type": "string",
+                            "enum": [
+                                "GASOLINE",
+                                "ALCOOL",
+                                "FLEX"
+                            ]
+                        },
+                        "clientId": {
+                            "type": "string"
+                        },
+                        "value": {
+                            "type": "string"
+                        },
+                        "odometer": {
+                            "type": "string"
+                        },
+                        "licensePlate": {
+                            "type": "string"
+                        },
+                        "tracker": {
+                            "type": "string"
+                        },
+                        "trailer": {
+                            "type": "string"
+                        },
+                        "alieneted": {
+                            "type": "string"
+                        },
+                        "bank": {
+                            "type": "string"
+                        },
+                        "financedAmount": {
+                            "type": "string"
+                        },
+                        "engineCapicity": {
+                            "type": "string"
+                        },
+                        "observations": {
+                            "type": "string"
+                        },
+                        "vehicleConditions": {
+                            "type": "object",
+                            "properties": {
+                                "dentedTank": {
+                                    "type": "string"
+                                },
+                                "brokenExhaust": {
+                                    "type": "boolean"
+                                },
+                                "goodCondition": {
+                                    "type": "string"
+                                },
+                                "damagedTaillights": {
+                                    "type": "string"
+                                },
+                                "damagedHeadlights": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "secondDriver": {
+                            "type": "object",
+                            "properties": {
+                                "documentNumber": {
+                                    "type": "string"
+                                },
+                                "fullname": {
+                                    "type": "string"
+                                },
+                                "kinship": {
+                                    "type": "string"
+                                },
+                                "licenseDocument": {
+                                    "type": "object",
+                                    "properties": {
+                                        "licenseNumber": {
+                                            "type": "string"
+                                        },
+                                        "licenseCategory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "birthDate": {
+                                    "type": "string"
+                                },
+                                "observations": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "engineCapacity": {
+                            "type": "number",
+                            "examples": 0
+                        }                                                        
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of vehicle to update",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/createVehicleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/vehicleResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/customError"
+                                }
+                            }
+                        }
+                    }
+                }  
+            },
+            "delete": {
+                "summary": "delete vehicle by Id",
+                "description": "Endpoint for delete vehicle by id",
+                "tags": ["Vehicle"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of vehicle to delete",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]  
+            }
+        },
+        "/vehicle/client/{clientId}": {
+            "get": {
+                "summary": "find vehicles by clientId",
+                "description": "Endpoint for get all vehicle of Client",
+                "tags": ["Vehicle"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/vehicleResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                      "name": "clientId",
+                      "in": "path",
+                      "description": "Id of client to filter vehicles",
+                      "type":"string",
+                      "required": true,
+                      "style": "simple"
+                    }
+                ]    
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "loginRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "email",
+                    "password"
+                ]
+            },
+            "loginResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "message",
+                    "accessToken",
+                    "refreshToken"
+                ]
+            },
+            "refreshTokenRequest": {
+                "type": "object",
+                "properties": {
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                },
+                "required": ["refreshToken"]
+            },
+            "refreshTokenResponse": {
+                "type": "object",
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "allocateUserRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string"
+                    },
+                    "businessUnitId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                   "userId",
+                   "businessUnitId" 
+                ]
+            },
+            "editUserRequest": {
+                "type": "object",
+                "properties": {
+                    "fullname": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum":[
+                            "HIGH",
+                            "MEDIUM",
+                            "LOW"
+                        ], 
+                        "default": "LOW"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "fullname",
+                    "role",
+                    "email",
+                    "documentNumber"
+                ]
+            },
+            "editPasswordRequest": {
+                "type": "object",
+                "properties": {
+                    "password": {
+                        "type": "string"
+                    },
+                    "confirmPassword": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "password",
+                    "confirmPassword"
+                ]
+            },
+            "createClientRequest": {
+                "type": "object",
+                "properties": {
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "fullname": {
+                        "type":"string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },                    
+                    "telephone": {
+                        "type": "string"
+                    },
+                    "mobilephone": {
+                        "type": "string"
+                    },
+                    "indication": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type":"object",
+                        "properties": {
+                            "zipCode": {
+                                "examples": "58053-022",
+                                "type": "string"
+                            },
+                            "street": {
+                                "examples": "rua da paz",
+                                "type": "string"
+                            },
+                            "number": {
+                                "examples": "444",
+                                "type": "string"
+                            },
+                            "neighborhood": {
+                                "examples": "Bancarios",
+                                "type": "string"
+                            },
+                            "city": {
+                              "examples": "Joao Pessoa",
+                              "type": "string"
+                            },
+                            "state": {
+                                "examples": "PB",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "identityDocument": {
+                        "type": "object",
+                        "properties": {
+                            "identityNumber": {
+                                "examples": "000000000222211111",
+                                "type": "string"
+                            },
+                            "expeditionOrgan": {
+                                "examples": "SSP",
+                                "type": "string"
+                            },
+                            "birthDate": {
+                                "examples": "12/08/2001",
+                                "type": "string"
+                            },
+                            "expeditionDate": {
+                                "examples": "10/02/2022",
+                                "type": "string"
+                            },
+                            "UF": {
+                                "examples": "RS",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "licenseDocument": {
+                        "type": "object",
+                        "properties": {
+                            "licenseNumber": {
+                                "examples": "1111111111111122111111",
+                                "type": "string"
+                            },
+                            "licenseCategory": {
+                                "examples": "AB",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "businessUnitId": {
+                        "type": "string",
+                        "examples": "3af3064e-2658-4168-bf9e-d2b13be65712"
+                    }
+                }
+            },
+            "updateContractRequest": {
+                "type": "object",
+                "properties": {
+                    "myId": {
+                        "type": "string"
+                    },
+                    "additionalInfo": {
+                        "type": "string"
+                    },
+                    "planMyId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "createContractRequest": {
+                "type": "object",
+                "properties": {
+                    "vehicleId": {
+                        "type": "string"
+                    },
+                    "planMyId": {
+                        "type": "string"
+                    },
+                    "firstPayDayDate": {
+                        "type": "string"
+                    },
+                    "additionalInfo": {
+                        "type": "string"
+                    }
+                },
+                "required":[
+                    "vehicleId",
+                    "planMyId",
+                    "firstPayDayDate"
+                ]
+            },
+            "createUserRequest": {
+                "type": "object",
+                "properties": {
+                    "fullname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "confirmPassword": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "LOW",
+                            "MEDIUM", 
+                            "HIGH"
+                        ],
+                        "default": "LOW"
+                    },
+                    "businessUnitId": {
+                        "type": "string"
+                    }
+                },
+                "required":[
+                    "fullname",
+                    "email",
+                    "documentNumber",
+                    "password",
+                    "confirmPassword",
+                    "role"
+                ]
+            },
+            "createPlanRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "examples": "ouro"
+                    },
+                    "periodicity": {
+                        "type": "string",
+                        "enum": [
+                            "weekly",
+                            "biweekly",
+                            "monthly",
+                            "bimonthly",
+                            "quarterly",
+                            "biannual",
+                            "yearly"
+                        ],
+                        "default": "yearly"
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "additionalInfo": {
+                        "type": "string",
+                        "examples": "testando um, dois, tres ..."
+                    },
+                    "planPrices": {
+                        "type": "array",
+                        "items": {
+                            "$ref":"#/components/schemas/planPriceRequest"
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "periodicity",
+                    "quantity",
+                    "PlanPrices"
+                ]
+            },
+            "planPriceRequest": {
+                "type": "object",
+                "properties": {
+                    "payment": {
+                        "type": "string",
+                        "examples": "creditcard"
+                    },
+                    "value": {
+                        "type": "integer",
+                        "examples": 10025
+                    }
+                },
+                "required": [
+                    "payment",
+                    "value"
+                ]
+            },
+            "managerRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "corporateName": {
+                        "type": "string"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                }             
+            },
+            "eventRequest": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "occurrenceDateTime": {
+                        "type": "string"
+                    },
+                    "policeReport": {
+                        "type": "boolean"
+                    },
+                    "address": {
+                        "type":"object",
+                        "properties": {
+                            "zipCode": {
+                                "type": "string"
+                            },
+                            "street": {
+                                "type": "string"
+                            },
+                            "number": {
+                                "type": "string"
+                            },
+                            "neighborhood": {
+                                "type": "string"
+                            },
+                            "city": {
+                              "type": "string"
+                            },
+                            "state": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "vehicleId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "description",
+                    "type",
+                    "occurrenceDateTime",
+                    "address"
+                ]
+            }, 
+            "createUnitRequest": {
+                "type": "object",
+                "properties": {
+                    "corporateName": {
+                        "type": "string"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                            "zipCode": {
+                                "type": "string"
+                            },
+                            "street": {
+                                "type": "string"
+                            },
+                            "number": {
+                                "type": "string"
+                            },
+                            "neighborhood": {
+                                "type": "string"
+                            },
+                            "city": {
+                                "type": "string"
+                            },
+                            "state": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "corporateName",
+                    "documentNumber"
+                ]                
+            },
+            "addManagerUnitRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string"
+                    },
+                    "businessUnitId": {
+                        "type": "string"
+                    }
+                },
+                "required":[
+                    "userId",
+                    "businessUnitId"
+                ]
+            },
+            "removeManagerUnitRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string"
+                    },
+                    "businessUnitId": {
+                        "type": "string"
+                    }
+                },
+                "required":[
+                    "userId",
+                    "businessUnitId"
+                ]
+            },            
+            "createProfileRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    }
+                },
+                "required":[
+                    "email",
+                    "documentNumber"
+                ]
+            },
+            "updatePasswordProfile": {
+                "type": "object",
+                "properties": {
+                    "oldPassword": {
+                        "type": "string"
+                    },
+                    "newPassword": {
+                        "type": "string"
+                    },
+                    "confirmPassword": {
+                        "type": "string"
+                    }                    
+                },
+                "required":[
+                    "oldPassword",
+                    "newPassword",
+                    "confirmPassword"
+                ]
+            },
+            "createVehicleRequest": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "enum":[
+                            "CAR",
+                            "MOTOCYCLE",
+                            "TRUCK",
+                            "OTHER"
+                        ],
+                        "default": "CAR"
+                    },
+                    "brand": {
+                        "type": "string",
+                        "examples":"Toyota"
+                    },
+                    "model": {
+                        "type": "string",
+                        "examples": "Corolla"
+                    },
+                    "yearManufacture": {
+                        "type": "integer",
+                        "examples": 2000
+                    },                                                            
+                    "yearModel": {
+                        "type": "integer",
+                        "examples": 2000
+                    },
+                    "color": {
+                        "type": "string",
+                        "examples": "red"
+                    },
+                    "chassi": {
+                        "type": "string",
+                        "examples": "3d213-g4521-64bbg-3322d"
+                    },
+                    "renavam": {
+                        "type": "string",
+                        "examples": "3435435435"
+                    },                    
+                    "fuel": {
+                        "type": "string",
+                        "enum": [
+                            "ALCOOL",
+                            "GASOLINE", 
+                            "FLEX"
+                        ],
+                        "default": "GASOLINE"                        
+                    },
+                    "clientId": {
+                        "type": "string",
+                        "examples": "3497a958-e3e5-4d92-8ec8-ceb4a5044778"
+                    },
+                    "value": {
+                        "type": "number",
+                        "examples": 258775.88
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "examples": 350000
+                    },
+                    "licensePlate": {
+                        "type": "string",
+                        "examples": 85000
+                    },
+                    "tracker": {
+                        "type": "boolean",
+                        "examples": "false"
+                    },
+                    "trailer": {
+                        "type": "boolean",
+                        "examples": "false"
+                    },
+                    "alieneted": {
+                        "type": "boolean",
+                        "examples": "false"
+                    },
+                    "bank": {
+                        "type": "string",
+                        "examples": "BANCO DO BRASIL"
+                    },
+                    "financedAmount": {
+                        "type": "number",
+                        "examples": 5000.25
+                    },
+                    "engineCapicity": {
+                        "type": "integer",
+                        "examples": 122
+                    },
+                    "observations": {
+                        "type": "string",
+                        "examples": "hello world!"
+                    },
+                    "vehicleConditions": {
+                        "type": "object",
+                        "properties": {
+                            "dentedTank": {
+                                "type": "boolean",
+                                "examples": "true"
+                            },
+                            "brokenExhaust": {
+                                "type": "boolean",
+                                "examples": "false"
+                            },
+                            "goodCondition": {
+                                "type": "boolean",
+                                "examples": "false"
+                            },
+                            "damagedTaillights": {
+                                "type": "boolean",
+                                "examples": "false"
+                            },
+                            "damagedHeadlights": {
+                                "type": "boolean",
+                                "examples": "true"
+                            }
+                        }
+                    },
+                    "secondDriver": {
+                        "type": "object",
+                        "properties": {
+                            "documentNumber": {
+                                "type": "string",
+                                "examples": "12345"
+                            },
+                            "fullname": {
+                                "type": "string",
+                                "examples": "John"
+                            },
+                            "kinship": {
+                                "type": "string",
+                                "examples": "WIFE"
+                            },
+                            "licenseDocument": {
+                                "type": "object",
+                                "properties": {
+                                    "licenseNumber": {
+                                        "type": "string",
+                                        "examples": "33222"
+                                    },
+                                    "licenseCategory": {
+                                        "type": "string",
+                                        "examples": "45468"
+                                    }
+                                }
+                            },
+                            "birthDate": {
+                                "type": "string",
+                                "examples": "10/01/2023"
+                            },
+                            "observations": {
+                                "type": "string",
+                                "examples": "testando um, dois, tres ..."
+                            }
+                        }
+                    },
+                    "engineCapacity": {
+                        "type": "number",
+                        "examples": 0
+                    }
+                }
+            },
+            "carneResponse": {
+                "type": "object",
+                "properties": {
+                    "Carnes": {
+                        "type": "object",
+                        "properties": {
+                            "pdf": {
+                                "type": "string"
+                            },
+                            "subscriptionMyId": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "transactionsResponse": {
+                "type": "object",
+                "properties": {
+                    "totalQtdFoundInPage": {
+                        "type": "number"
+                    },
+                    "transactions": {
+                        "type": "object",
+                        "properties": {
+                            "galaxPayId": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "number"
+                            },
+                            "payday": {
+                                "type": "string"
+                            },
+                            "paydayDate": {
+                                "type": "string"
+                            },
+                            "installment": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "string"
+                            },
+                            "statusDescription": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            },
+                            "myId": {
+                                "type": "string"
+                            },
+                            "additionalInfo": {
+                                "type": "string"
+                            },
+                            "subscriptionMyId": {
+                                "type": "string"
+                            },
+                            "subscriptionGalaxPayId": {
+                                "type": "string"
+                            },
+                            "payedOutsideGalaxPay": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "createUserResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "LOW",
+                            "MEDIUM", 
+                            "HIGH"
+                        ],
+                        "default": "LOW"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                }
+            },
+            "clientResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "fullname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "telephone": {
+                        "type": "string"
+                    },
+                    "mobilephone": {
+                        "type": "string"
+                    },
+                    "indication": {
+                        "type": "string"
+                    },
+                    "galaxPayId": {
+                        "type": "string"
+                    },
+                    "isActive": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    },
+                    "licenseDocumentId": {
+                        "type": "string"
+                    },
+                    "businessUnitId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "deleteUnitResponse": {
+                "type": "object",
+                "properties": {
+                    "type": "string"
+                }
+            },
+            "singleMessageResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "contractResponse": {
+                "type": "object",
+                "properties": {
+                    "vehicle": {
+                        "type": "object"
+                    }
+                }
+            },
+            "usersResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "examples": "john"
+                    },
+                    "fullname": {
+                        "type": "string",
+                        "examples": "john wick"
+                    },
+                    "email": {
+                        "type": "string",
+                        "examples": "johnwick@wick.com"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "LOW",
+                            "MEDIUM", 
+                            "HIGH"
+                        ],
+                        "default": "LOW"
+                    }                                                    
+                }
+            },
+            "userResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "fullname": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "createdAt": {
+                            "type": "string"
+                        },
+                        "updatedAt": {
+                            "type": "string"
+                        },
+                        "role": {
+                            "type": "string",
+                            "enum": [
+                                "LOW",
+                                "MEDIUM", 
+                                "HIGH"
+                            ],
+                            "default": "LOW"
+                        }
+                    }
+                }
+            },
+            "eventResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "occurrenceDateTime": {
+                        "type": "string"
+                    },
+                    "policeReport": {
+                        "type": "boolean"
+                    },
+                    "vehicleId": {
+                        "type": "string"
+                    },
+                    "addressId": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                }
+            },
+            "planResponse": {
+                "type": "object",
+                "properties": {
+                    "myId": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "periodicity": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "type": "string"
+                    },
+                    "additionalInfo": {
+                        "type": "string"
+                    },
+                    "PlanPrices": {
+                        "type": "object",
+                        "properties": {
+                            "payment": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "unitsResponse": {
+                "type": "object",                    
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "corporateName": {
+                        "type": "string"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    },                  
+                    "managers": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/managerRequest"
+                        }
+                    },
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/createUserRequest"
+                        }
+                    }
+                }
+            },
+            "vehicleResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "String",
+                        "enum": [
+                            "CAR",
+                            "MOTOCYCLE", 
+                            "TRUCK",
+                            "OTHER"                            
+                        ],
+                        "default": "CAR"                        
+                    },
+                    "brand": {
+                        "type": "string"
+                    },
+                    "model": {
+                        "type": "string"
+                    },
+                    "yearManufacture": {
+                        "type": "string"
+                    },
+                    "yearModel": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "chassi": {
+                        "type": "string"
+                    },
+                    "renavam": {
+                        "type": "string"                            
+                    },
+                    "fuel": {
+                        "type": "string",
+                        "enum": [
+                            "ALCOOL",
+                            "GASOLINE",
+                            "DIESEL",
+                            "FLEX",
+                            "OTHER"
+                        ],
+                        "default": "GASOLINE"                                        
+                    },
+                    "clientId": {
+                        "type": "string"
+                    },
+                    "odometer": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    },
+                    "licensePlate": {
+                        "type": "string"
+                    },
+                    "tracker": {
+                        "type": "string"
+                    },
+                    "trailer": {
+                        "type": "string"
+                    },
+                    "alieneted": {
+                        "type": "string"
+                    },
+                    "bank": {
+                        "type": "string"
+                    },
+                    "financedAmount": {
+                        "type": "string"
+                    },
+                    "engineCapicity": {
+                        "type": "string"
+                    },
+                    "observations": {
+                        "type": "string"
+                    },
+                    "vehicleConditions": {
+                        "type": "object",
+                        "properties": {
+                            "dentedTank": {
+                                "type": "string"
+                            },
+                            "brokenExhaust": {
+                                "type": "boolean"
+                            },
+                            "goodConditions": {
+                                "type": "string"
+                            },
+                            "damagedHeadTailligths": {
+                                "type": "string"
+                            },
+                            "damagedHeadlights": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "secondDriver": {
+                        "type": "object",
+                        "properties": {
+                            "documentNumber": {
+                                "type": "string"
+                            },
+                            "fullName": {
+                                "type": "string"
+                            },
+                            "kinship": {
+                                "type": "string"
+                            },
+                            "licenseDocument": {
+                                "type": "object",
+                                "properties": {
+                                    "licenseDocument": {
+                                        "type": "string"
+                                    },
+                                    "licenseCategory": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "B",
+                                            "C",
+                                            "D",
+                                            "E",
+                                            "AB",
+                                            "AC",
+                                            "AD",
+                                            "AE",
+                                            "ACC"
+                                        ],
+                                        "default": "A"
+                                    }
+                                }
+                            },
+                            "birthDate": {
+                                "type": "string"
+                            },
+                            "observations": {
+                                "type": "string"
+                            }                                                        
+                        }
+                    }
+                }
+            },
+            "deleteUserResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "customError": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

@@ -1,0 +1,10 @@
+node_modules/
+package-lock.json
+/docs
+/dist
+db.json
+.env
+contractObjec.txt
+
+#Electron-builder output
+dist_electron/

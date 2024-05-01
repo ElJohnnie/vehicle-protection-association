@@ -1,0 +1,1 @@
+mysql -u root -p root -e "USE vehicle-insurance; INSERT INTO user (id, fullname, email, documentNumber, password, role, isActive) VALUES ('high', 'User high', 'high@gmail.com', '61653459646', '12345', 'HIGH', true);"
