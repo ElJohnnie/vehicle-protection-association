@@ -3,7 +3,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Licence](https://img.shields.io/github/license/ElJohnnie/vehicle-insurance-system?style=for-the-badge)](./LICENSE)
 
-# Vehicle Insurance System
+# Vehicle Protection Association
 
 <img alt="hello-dark" width="40%" align="left" src="assets/pic1.png">
 <img alt="hello-dark" width="40%" align="left" src="assets/pic2.png">
