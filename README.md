@@ -1,7 +1,7 @@
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
-[![Licence](https://img.shields.io/github/license/ElJohnnie/vehicle-insurance-system?style=for-the-badge)](./LICENSE)
+[![Licence](https://img.shields.io/github/license/ElJohnnie/vehicle-protection-association?style=for-the-badge)](./LICENSE)
 
 # Vehicle Protection Association
 
@@ -67,9 +67,9 @@
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/ElJohnnie/vehicle-insurance-system.svg?style=for-the-badge
-[contributors-url]: https://github.com/ElJohnnie/vehicle-insurance-system/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ElJohnnie/vehicle-insurance-system.svg?style=for-the-badge
-[forks-url]: https://github.com/RuanGemmer/HelpDesk-FrontEnd/network/members
-[stars-shield]: https://img.shields.io/github/stars/ElJohnnie/vehicle-insurance-system.svg?style=for-the-badge
-[stars-url]: https://github.com/ElJohnnie/vehicle-insurance-system/stargazers
+[contributors-shield]: https://img.shields.io/github/contributors/ElJohnnie/vehicle-protection-association.svg?style=for-the-badge
+[contributors-url]: https://github.com/ElJohnnie/vehicle-protection-association/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ElJohnnie/vehicle-protection-association.svg?style=for-the-badge
+[forks-url]: https://github.com/ElJohnnie/vehicle-protection-association/network/members
+[stars-shield]: https://img.shields.io/github/stars/ElJohnnie/vehicle-protection-association.svg?style=for-the-badge
+[stars-url]: https://github.com/ElJohnnie/vehicle-protection-association/stargazers
