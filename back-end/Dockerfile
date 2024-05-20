@@ -19,5 +19,5 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3000
 
-CMD [ "npm", "run", "start:prod" ]
+ENTRYPOINT [ "npm", "run", "start:prod" ]
 # # CMD ["tail", "-f", "/dev/null"]
