@@ -12,7 +12,7 @@ services:
       - 3306
     ports:
       - 3306:3306
-    command: --explicit-defaults-for-timestamp=ON
+    command: --explicit-defaults-for-timestamp=ON --innodb-use-native-aio=0
     networks:
       - vehicle-insurance
     healthcheck:
@@ -20,6 +20,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: always
+    tty: true
+    volumes: 
+      - ./mysql/mysql:/var/lib/mysql
 
   back-end:
     build: './'
